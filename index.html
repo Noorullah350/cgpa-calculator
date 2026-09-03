@@ -1,1329 +1,833 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>CGPA Calculator by Noor Ullah</title>
+<title>CGPA Calculator — By Noor Ullah</title>
 
 <style>
-
-/* =====================================================
-   GLOBAL
-===================================================== */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-:root {
-    --bg: #eef3f8;
-    --card: #ffffff;
-    --soft: #f7f9fc;
-    --text: #172033;
-    --muted: #64748b;
-    --border: #dce3ec;
-    --primary: #2563eb;
-    --primary-dark: #1d4ed8;
-    --danger: #dc2626;
-    --dark: #172033;
+:root{
+    --bg:#f1f5f9;
+    --card:#ffffff;
+    --text:#172033;
+    --muted:#64748b;
+    --primary:#2563eb;
+    --primary-dark:#1d4ed8;
+    --danger:#ef4444;
+    --success:#16a34a;
+    --border:#e2e8f0;
+    --input:#f8fafc;
+    --shadow:0 10px 30px rgba(15,23,42,.08);
 }
 
-body.dark {
-    --bg: #0b1120;
-    --card: #151f32;
-    --soft: #1c283c;
-    --text: #f1f5f9;
-    --muted: #94a3b8;
-    --border: #29364d;
+body.dark{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#f8fafc;
+    --muted:#94a3b8;
+    --border:#334155;
+    --input:#0f172a;
+    --shadow:0 10px 30px rgba(0,0,0,.25);
 }
 
-body {
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 15px;
-
-    transition: background .3s, color .3s;
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    transition:.3s;
 }
 
-.container {
-    max-width: 900px;
-    margin: auto;
+.container{
+    width:100%;
+    max-width:720px;
+    margin:auto;
+    padding:18px;
 }
 
+/* HEADER */
 
-/* =====================================================
-   HEADER
-===================================================== */
-
-.header {
-    position: relative;
-
-    background: linear-gradient(
-        135deg,
-        #172033,
-        #263d5c,
-        #2563eb
-    );
-
-    color: white;
-
-    text-align: center;
-
-    padding: 34px 20px;
-
-    border-radius: 26px;
-
-    margin-bottom: 18px;
-
-    overflow: hidden;
-
-    box-shadow:
-        0 15px 35px rgba(23,32,51,.20);
+.header{
+    background:linear-gradient(135deg,#1e3a8a,#2563eb);
+    color:white;
+    border-radius:28px;
+    padding:30px 22px;
+    text-align:center;
+    box-shadow:0 15px 35px rgba(37,99,235,.25);
+    margin-bottom:18px;
+    position:relative;
+    overflow:hidden;
 }
 
-
-/* Decorative circles */
-
-.header::before {
-    content: "";
-
-    position: absolute;
-
-    width: 180px;
-    height: 180px;
-
-    border-radius: 50%;
-
-    background: rgba(255,255,255,.06);
-
-    top: -90px;
-    left: -60px;
+.header:before{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    background:rgba(255,255,255,.08);
+    border-radius:50%;
+    right:-70px;
+    top:-80px;
 }
 
-.header::after {
-    content: "";
-
-    position: absolute;
-
-    width: 220px;
-    height: 220px;
-
-    border-radius: 50%;
-
-    background: rgba(255,255,255,.05);
-
-    bottom: -130px;
-    right: -70px;
+.header .icon{
+    font-size:44px;
+    margin-bottom:8px;
 }
 
-
-/* Theme button */
-
-.theme-btn {
-    position: absolute;
-
-    top: 15px;
-    right: 15px;
-
-    width: 42px;
-    height: 42px;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background: rgba(255,255,255,.14);
-
-    color: white;
-
-    font-size: 19px;
-
-    cursor: pointer;
-
-    z-index: 5;
+.header h1{
+    font-size:30px;
+    margin-bottom:7px;
 }
 
-.logo {
-    position: relative;
-    z-index: 2;
-
-    width: 65px;
-    height: 65px;
-
-    margin: auto;
-
-    border-radius: 18px;
-
-    background: rgba(255,255,255,.13);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 34px;
-
-    box-shadow:
-        0 8px 20px rgba(0,0,0,.12);
+.header p{
+    opacity:.9;
+    font-size:15px;
 }
 
-.welcome {
-    position: relative;
-    z-index: 2;
-
-    margin-top: 14px;
-
-    font-size: 11px;
-
-    letter-spacing: 4px;
-
-    color: #bfdbfe;
-
-    font-weight: bold;
+.by{
+    margin-top:13px;
+    font-size:13px;
+    opacity:.85;
 }
 
-.header h1 {
-    position: relative;
-    z-index: 2;
-
-    font-size: 31px;
-
-    margin-top: 8px;
+.top-buttons{
+    position:absolute;
+    top:14px;
+    right:14px;
+    display:flex;
+    gap:8px;
 }
 
-.header p {
-    position: relative;
-    z-index: 2;
-
-    color: #dbeafe;
-
-    margin-top: 8px;
-
-    font-size: 14px;
+.icon-btn{
+    width:40px;
+    height:40px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,255,255,.18);
+    color:white;
+    font-size:19px;
+    cursor:pointer;
 }
 
-.creator {
-    position: relative;
-    z-index: 2;
+/* CARD */
 
-    display: inline-block;
-
-    margin-top: 16px;
-
-    padding: 8px 14px;
-
-    border-radius: 30px;
-
-    background: rgba(255,255,255,.10);
-
-    border: 1px solid rgba(255,255,255,.13);
-
-    font-size: 12px;
-
-    color: #dbeafe;
+.card{
+    background:var(--card);
+    border-radius:24px;
+    padding:20px;
+    margin-bottom:18px;
+    box-shadow:var(--shadow);
+    border:1px solid var(--border);
 }
 
-.creator strong {
-    color: white;
+.card-title{
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:16px;
 }
 
+/* INPUTS */
 
-/* =====================================================
-   MAIN CARD
-===================================================== */
-
-.main-card {
-    background: var(--card);
-
-    border-radius: 24px;
-
-    padding: 21px;
-
-    box-shadow:
-        0 8px 30px rgba(15,23,42,.07);
-
-    margin-bottom: 17px;
-
-    transition: background .3s;
+.form-group{
+    margin-bottom:14px;
 }
 
-.section-heading {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    margin-bottom: 18px;
+label{
+    display:block;
+    font-size:13px;
+    font-weight:700;
+    color:var(--muted);
+    margin-bottom:7px;
 }
 
-.section-heading h2 {
-    font-size: 20px;
+input{
+    width:100%;
+    padding:14px 15px;
+    border:1px solid var(--border);
+    border-radius:13px;
+    background:var(--input);
+    color:var(--text);
+    font-size:16px;
+    outline:none;
+    transition:.2s;
 }
 
-.badge {
-    background: #dbeafe;
-
-    color: #2563eb;
-
-    padding: 7px 12px;
-
-    border-radius: 30px;
-
-    font-size: 11px;
-
-    font-weight: bold;
+input:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(37,99,235,.12);
 }
 
+/* SEMESTER */
 
-/* =====================================================
-   SEMESTER
-===================================================== */
-
-.semester {
-    background: var(--soft);
-
-    border: 1px solid var(--border);
-
-    border-radius: 18px;
-
-    padding: 17px;
-
-    margin-bottom: 13px;
-
-    transition: .25s;
-
-    animation: slideIn .3s ease;
+.semester{
+    background:var(--input);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:16px;
+    margin-bottom:13px;
+    animation:slideIn .25s ease;
 }
 
-.semester:hover {
-    transform: translateY(-1px);
-
-    box-shadow:
-        0 7px 20px rgba(37,99,235,.06);
+@keyframes slideIn{
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
-@keyframes slideIn {
+.semester-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:13px;
+}
 
-    from {
-        opacity: 0;
-        transform: translateY(10px);
+.semester-number{
+    font-weight:700;
+    font-size:16px;
+}
+
+.delete-btn{
+    border:none;
+    background:#fee2e2;
+    color:#dc2626;
+    width:38px;
+    height:38px;
+    border-radius:11px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+body.dark .delete-btn{
+    background:#451a1a;
+    color:#f87171;
+}
+
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+/* BUTTONS */
+
+.btn{
+    width:100%;
+    border:none;
+    border-radius:13px;
+    padding:14px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.btn:active{
+    transform:scale(.98);
+}
+
+.primary{
+    background:var(--primary);
+    color:white;
+}
+
+.primary:hover{
+    background:var(--primary-dark);
+}
+
+.secondary{
+    background:#64748b;
+    color:white;
+}
+
+.danger{
+    background:var(--danger);
+    color:white;
+}
+
+.success{
+    background:var(--success);
+    color:white;
+}
+
+.button-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:10px;
+}
+
+/* SUMMARY */
+
+.summary-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.stat{
+    background:var(--input);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:20px;
+    text-align:center;
+}
+
+.stat-label{
+    color:var(--muted);
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.stat-value{
+    font-size:27px;
+    font-weight:800;
+}
+
+/* RESULT */
+
+.result{
+    background:linear-gradient(135deg,#172554,#1e3a8a);
+    color:white;
+    border-radius:25px;
+    padding:28px 20px;
+    text-align:center;
+    box-shadow:0 15px 35px rgba(30,58,138,.25);
+}
+
+.result small{
+    font-size:14px;
+    opacity:.8;
+    font-weight:700;
+}
+
+.cgpa{
+    font-size:64px;
+    font-weight:900;
+    margin:8px 0;
+}
+
+.result-message{
+    font-size:14px;
+    opacity:.85;
+}
+
+/* ACTIONS */
+
+.actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+/* FOOTER */
+
+.footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    padding:15px 0 25px;
+}
+
+.footer strong{
+    color:var(--text);
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%) translateY(80px);
+    background:#111827;
+    color:white;
+    padding:13px 18px;
+    border-radius:12px;
+    font-size:14px;
+    opacity:0;
+    transition:.3s;
+    z-index:1000;
+    max-width:90%;
+    text-align:center;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+/* PRINT */
+
+@media print{
+    body{
+        background:white;
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    .top-buttons,
+    .button-row,
+    .actions,
+    .delete-btn,
+    .footer{
+        display:none !important;
     }
 
-}
-
-
-/* Semester header */
-
-.semester-header {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    margin-bottom: 14px;
-}
-
-.semester-title {
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-
-    font-size: 15px;
-
-    font-weight: bold;
-}
-
-.semester-icon {
-    width: 39px;
-    height: 39px;
-
-    border-radius: 11px;
-
-    background: #dbeafe;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 19px;
-}
-
-.delete-btn {
-    width: 38px;
-    height: 38px;
-
-    border: none;
-
-    border-radius: 10px;
-
-    background: #fee2e2;
-
-    color: #dc2626;
-
-    font-size: 21px;
-
-    cursor: pointer;
-
-    transition: .2s;
-}
-
-.delete-btn:hover {
-    background: #fecaca;
-
-    transform: scale(1.05);
-}
-
-
-/* =====================================================
-   INPUTS
-===================================================== */
-
-.input-grid {
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 13px;
-}
-
-.input-group label {
-    display: block;
-
-    color: var(--muted);
-
-    font-size: 11px;
-
-    font-weight: bold;
-
-    margin-bottom: 7px;
-
-    text-transform: uppercase;
-
-    letter-spacing: .3px;
-}
-
-.input-wrapper {
-    position: relative;
-}
-
-.input-wrapper span {
-    position: absolute;
-
-    right: 13px;
-
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    color: var(--muted);
-
-    font-size: 11px;
-
-    pointer-events: none;
-}
-
-input {
-    width: 100%;
-
-    height: 51px;
-
-    border-radius: 11px;
-
-    border: 1px solid var(--border);
-
-    background: var(--card);
-
-    color: var(--text);
-
-    outline: none;
-
-    padding: 0 45px 0 13px;
-
-    font-size: 16px;
-
-    transition: .2s;
-}
-
-input:focus {
-    border-color: var(--primary);
-
-    box-shadow:
-        0 0 0 3px rgba(37,99,235,.10);
-}
-
-
-/* =====================================================
-   BUTTONS
-===================================================== */
-
-.buttons {
-    display: grid;
-
-    grid-template-columns: 1fr 130px;
-
-    gap: 10px;
-
-    margin-top: 17px;
-}
-
-.add-btn,
-.reset-btn {
-
-    height: 52px;
-
-    border: none;
-
-    border-radius: 12px;
-
-    font-size: 15px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-    transition: .2s;
-}
-
-.add-btn {
-    background: var(--primary);
-
-    color: white;
-}
-
-.add-btn:hover {
-    background: var(--primary-dark);
-
-    transform: translateY(-1px);
-}
-
-.reset-btn {
-    background: var(--soft);
-
-    color: var(--muted);
-
-    border: 1px solid var(--border);
-}
-
-.reset-btn:hover {
-    background: var(--border);
-}
-
-
-/* =====================================================
-   STAT CARDS
-===================================================== */
-
-.stats {
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 13px;
-
-    margin-bottom: 17px;
-}
-
-.stat-card {
-    background: var(--card);
-
-    border-radius: 18px;
-
-    padding: 19px;
-
-    box-shadow:
-        0 7px 22px rgba(15,23,42,.06);
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 13px;
-}
-
-.stat-icon {
-    width: 45px;
-    height: 45px;
-
-    border-radius: 12px;
-
-    background: #eff6ff;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 20px;
-}
-
-.stat-text small {
-    display: block;
-
-    color: var(--muted);
-
-    font-size: 11px;
-
-    margin-bottom: 4px;
-}
-
-.stat-text strong {
-    font-size: 24px;
-}
-
-
-/* =====================================================
-   CGPA RESULT
-===================================================== */
-
-.result {
-    position: relative;
-
-    background: linear-gradient(
-        135deg,
-        #172033,
-        #263d5c
-    );
-
-    color: white;
-
-    padding: 28px 22px;
-
-    text-align: center;
-
-    border-radius: 24px;
-
-    overflow: hidden;
-
-    box-shadow:
-        0 14px 35px rgba(23,32,51,.20);
-
-    margin-bottom: 17px;
-}
-
-.result::before {
-    content: "";
-
-    position: absolute;
-
-    width: 160px;
-    height: 160px;
-
-    border-radius: 50%;
-
-    background: rgba(255,255,255,.04);
-
-    top: -80px;
-    right: -50px;
-}
-
-.result-label {
-    position: relative;
-
-    color: #cbd5e1;
-
-    font-size: 12px;
-
-    letter-spacing: 1.5px;
-
-    font-weight: bold;
-}
-
-.cgpa {
-    position: relative;
-
-    font-size: 62px;
-
-    line-height: 1;
-
-    font-weight: bold;
-
-    margin: 10px 0 7px;
-}
-
-.out-of {
-    position: relative;
-
-    color: #94a3b8;
-
-    font-size: 12px;
-}
-
-
-/* Progress */
-
-.progress-section {
-    position: relative;
-
-    margin-top: 20px;
-
-    text-align: left;
-}
-
-.progress-info {
-    display: flex;
-
-    justify-content: space-between;
-
-    color: #cbd5e1;
-
-    font-size: 11px;
-
-    margin-bottom: 7px;
-}
-
-.progress {
-    width: 100%;
-
-    height: 9px;
-
-    background: rgba(255,255,255,.12);
-
-    border-radius: 20px;
-
-    overflow: hidden;
-}
-
-.progress-bar {
-    width: 0%;
-
-    height: 100%;
-
-    border-radius: 20px;
-
-    background: #60a5fa;
-
-    transition: width .5s ease;
-}
-
-
-/* Status */
-
-.status {
-    position: relative;
-
-    display: inline-block;
-
-    margin-top: 17px;
-
-    padding: 8px 15px;
-
-    border-radius: 30px;
-
-    background: rgba(255,255,255,.10);
-
-    color: #e2e8f0;
-
-    font-size: 12px;
-
-    font-weight: bold;
-}
-
-
-/* =====================================================
-   INFO
-===================================================== */
-
-.info {
-    background: var(--card);
-
-    border-radius: 19px;
-
-    padding: 20px;
-
-    text-align: center;
-
-    box-shadow:
-        0 7px 22px rgba(15,23,42,.06);
-}
-
-.info h3 {
-    font-size: 17px;
-
-    margin-bottom: 8px;
-}
-
-.info p {
-    color: var(--muted);
-
-    font-size: 13px;
-
-    line-height: 1.6;
-}
-
-
-/* =====================================================
-   FOOTER
-===================================================== */
-
-.footer {
-    text-align: center;
-
-    padding: 20px 5px 5px;
-
-    color: var(--muted);
-
-    font-size: 11px;
-}
-
-.footer strong {
-    color: var(--primary);
-}
-
-
-/* =====================================================
-   CELEBRATION
-===================================================== */
-
-.confetti {
-    position: fixed;
-
-    top: -20px;
-
-    font-size: 22px;
-
-    z-index: 9999;
-
-    pointer-events: none;
-
-    animation: fall 2.5s linear forwards;
-}
-
-@keyframes fall {
-
-    to {
-        transform:
-            translateY(110vh)
-            rotate(720deg);
-
-        opacity: 0;
+    .card{
+        box-shadow:none;
+        border:1px solid #ddd;
     }
 
+    .header{
+        box-shadow:none;
+    }
 }
 
+/* MOBILE */
 
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media(max-width:600px){
-
-    body {
-        padding: 10px;
+@media(max-width:500px){
+    .container{
+        padding:12px;
     }
 
-    .header {
-        padding: 30px 15px;
-
-        border-radius: 22px;
+    .header{
+        padding:27px 15px;
+        border-radius:22px;
     }
 
-    .header h1 {
-        font-size: 26px;
+    .header h1{
+        font-size:25px;
     }
 
-    .main-card {
-        padding: 15px;
-
-        border-radius: 20px;
+    .header .icon{
+        font-size:38px;
     }
 
-    .input-grid {
-        grid-template-columns: 1fr;
+    .card{
+        padding:15px;
+        border-radius:20px;
     }
 
-    .buttons {
-        grid-template-columns: 1fr;
+    .row{
+        grid-template-columns:1fr;
     }
 
-    .stats {
-        grid-template-columns: 1fr;
+    .summary-grid{
+        grid-template-columns:1fr 1fr;
     }
 
-    .cgpa {
-        font-size: 55px;
+    .cgpa{
+        font-size:58px;
     }
-
 }
-
-
-/* =====================================================
-   SMALL PHONES
-===================================================== */
-
-@media(max-width:360px){
-
-    .header h1 {
-        font-size: 23px;
-    }
-
-    .cgpa {
-        font-size: 48px;
-    }
-
-}
-
 </style>
-
 </head>
-
 
 <body>
 
-
 <div class="container">
 
+    <!-- HEADER -->
+    <header class="header">
 
-<!-- =================================================
-     HEADER
-================================================= -->
-
-<div class="header">
-
-
-    <button
-        class="theme-btn"
-        id="themeButton">
-
-        🌙
-
-    </button>
-
-
-    <div class="logo">
-        🎓
-    </div>
-
-
-    <div class="welcome">
-        WELCOME
-    </div>
-
-
-    <h1>
-        CGPA Calculator
-    </h1>
-
-
-    <p>
-        Calculate your academic performance with ease
-    </p>
-
-
-    <div class="creator">
-
-        ✨ CGPA Calculator by
-        <strong>Noor Ullah</strong>
-
-    </div>
-
-
-</div>
-
-
-
-<!-- =================================================
-     SEMESTER SECTION
-================================================= -->
-
-<div class="main-card">
-
-
-    <div class="section-heading">
-
-        <h2>
-            📚 Academic Semesters
-        </h2>
-
-        <div class="badge">
-            4.00 SCALE
+        <div class="top-buttons">
+            <button class="icon-btn" onclick="toggleTheme()" title="Dark/Light Mode">
+                🌙
+            </button>
         </div>
 
-    </div>
+        <div class="icon">🎓</div>
 
+        <h1>CGPA Calculator</h1>
 
-    <div id="semesterList">
+        <p>Calculate your cumulative GPA easily & accurately</p>
 
-
-        <!-- SEMESTER 1 -->
-
-        <div class="semester">
-
-
-            <div class="semester-header">
-
-                <div class="semester-title">
-
-                    <div class="semester-icon">
-                        📖
-                    </div>
-
-                    <span>
-                        Semester 1
-                    </span>
-
-                </div>
-
-
-                <button
-                    class="delete-btn">
-
-                    ×
-
-                </button>
-
-            </div>
-
-
-            <div class="input-grid">
-
-
-                <!-- GPA -->
-
-                <div class="input-group">
-
-                    <label>
-                        Semester GPA
-                    </label>
-
-
-                    <div class="input-wrapper">
-
-                        <input
-                            type="number"
-                            class="gpa-input"
-                            placeholder="Example: 3.50"
-                            min="0"
-                            max="4"
-                            step="0.01">
-
-                        <span>
-                            /4.00
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <!-- CREDIT -->
-
-                <div class="input-group">
-
-                    <label>
-                        Credit Hours
-                    </label>
-
-
-                    <div class="input-wrapper">
-
-                        <input
-                            type="number"
-                            class="credit-input"
-                            placeholder="Example: 15"
-                            min="1"
-                            max="40"
-                            step="1">
-
-                        <span>
-                            CH
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-            </div>
-
-
+        <div class="by">
+            ✨ Designed by <strong>Noor Ullah</strong>
         </div>
 
-
-    </div>
-
-
-    <!-- BUTTONS -->
-
-    <div class="buttons">
+    </header>
 
 
-        <button
-            class="add-btn"
-            id="addButton">
+    <!-- STUDENT INFORMATION -->
+    <section class="card">
 
+        <div class="card-title">
+            👨‍🎓 Student Information
+        </div>
+
+        <div class="form-group">
+            <label>Student Name</label>
+            <input
+                type="text"
+                id="studentName"
+                placeholder="Enter your name"
+                oninput="saveData()"
+            >
+        </div>
+
+        <div class="form-group">
+            <label>University / Institute</label>
+            <input
+                type="text"
+                id="university"
+                placeholder="Enter university name"
+                oninput="saveData()"
+            >
+        </div>
+
+    </section>
+
+
+    <!-- SEMESTERS -->
+    <section class="card">
+
+        <div class="card-title">
+            📚 Semester Details
+        </div>
+
+        <div id="semesterContainer"></div>
+
+        <button class="btn primary" onclick="addSemester()">
             ＋ Add Semester
-
         </button>
 
-
-        <button
-            class="reset-btn"
-            id="resetButton">
-
-            ↻ Reset
-
-        </button>
+    </section>
 
 
-    </div>
+    <!-- SUMMARY -->
+    <section class="card">
 
-
-</div>
-
-
-
-<!-- =================================================
-     STATISTICS
-================================================= -->
-
-<div class="stats">
-
-
-    <div class="stat-card">
-
-        <div class="stat-icon">
-            📚
+        <div class="card-title">
+            📊 Academic Summary
         </div>
 
-        <div class="stat-text">
+        <div class="summary-grid">
 
-            <small>
-                TOTAL SEMESTERS
-            </small>
+            <div class="stat">
+                <div class="stat-label">
+                    TOTAL SEMESTERS
+                </div>
 
-            <strong id="totalSemesters">
-                1
-            </strong>
+                <div class="stat-value" id="totalSemesters">
+                    0
+                </div>
+            </div>
 
-        </div>
+            <div class="stat">
+                <div class="stat-label">
+                    TOTAL CREDITS
+                </div>
 
-    </div>
-
-
-    <div class="stat-card">
-
-        <div class="stat-icon">
-            ⏱️
-        </div>
-
-        <div class="stat-text">
-
-            <small>
-                TOTAL CREDIT HOURS
-            </small>
-
-            <strong id="totalCredits">
-                0
-            </strong>
-
-        </div>
-
-    </div>
-
-
-</div>
-
-
-
-<!-- =================================================
-     CGPA RESULT
-================================================= -->
-
-<div class="result">
-
-
-    <div class="result-label">
-        YOUR CUMULATIVE GPA
-    </div>
-
-
-    <div
-        class="cgpa"
-        id="cgpa">
-
-        0.00
-
-    </div>
-
-
-    <div class="out-of">
-        Out of 4.00
-    </div>
-
-
-    <!-- Progress -->
-
-    <div class="progress-section">
-
-
-        <div class="progress-info">
-
-            <span>
-                CGPA Progress
-            </span>
-
-            <span id="progressText">
-                0%
-            </span>
-
-        </div>
-
-
-        <div class="progress">
-
-            <div
-                class="progress-bar"
-                id="progressBar">
+                <div class="stat-value" id="totalCredits">
+                    0.0
+                </div>
             </div>
 
         </div>
 
+    </section>
 
-    </div>
+
+    <!-- RESULT -->
+    <section class="result">
+
+        <small>YOUR CUMULATIVE GPA</small>
+
+        <div class="cgpa" id="cgpa">
+            0.00
+        </div>
+
+        <div class="result-message" id="resultMessage">
+            Enter your semester details to calculate CGPA
+        </div>
+
+    </section>
 
 
-    <!-- Status -->
+    <!-- ACTIONS -->
+    <section class="card">
 
-    <div
-        class="status"
-        id="status">
+        <div class="actions">
 
-        Enter your semester details
+            <button class="btn success" onclick="shareResult()">
+                📤 Share
+            </button>
 
-    </div>
+            <button class="btn primary" onclick="printResult()">
+                🖨️ Print / PDF
+            </button>
 
+            <button class="btn secondary" onclick="saveData()">
+                💾 Save
+            </button>
+
+            <button class="btn danger" onclick="resetCalculator()">
+                🔄 Reset
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <strong>CGPA Calculator</strong><br>
+        Made with ❤️ for students<br><br>
+        © 2026 Noor Ullah
+    </footer>
 
 </div>
 
 
-
-<!-- =================================================
-     INFORMATION
-================================================= -->
-
-<div class="info">
-
-    <h3>
-        💡 How it works
-    </h3>
-
-    <p>
-
-        Enter your GPA and credit hours for every semester.
-        The calculator automatically calculates your weighted
-        cumulative GPA. No manual calculations required!
-
-    </p>
-
-</div>
-
-
-
-<!-- FOOTER -->
-
-<div class="footer">
-
-    Made with ❤️ for students<br>
-
-    <strong>CGPA Calculator by Noor Ullah</strong>
-
-</div>
-
-
-</div>
-
+<div class="toast" id="toast"></div>
 
 
 <script>
 
-/* =====================================================
-   ELEMENTS
-===================================================== */
-
-const semesterList =
-    document.getElementById("semesterList");
-
-const addButton =
-    document.getElementById("addButton");
-
-const resetButton =
-    document.getElementById("resetButton");
-
-const themeButton =
-    document.getElementById("themeButton");
+let semesters = [];
 
 
-/* =====================================================
+/* =========================
+   START APP
+========================= */
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    loadData();
+
+    if(semesters.length === 0){
+        addSemester();
+    }
+
+    calculate();
+
+});
+
+
+/* =========================
+   ADD SEMESTER
+========================= */
+
+function addSemester(data = null){
+
+    const semester = {
+        id: Date.now() + Math.random(),
+        name: data?.name || `Semester ${semesters.length + 1}`,
+        gpa: data?.gpa ?? "",
+        credits: data?.credits ?? ""
+    };
+
+    semesters.push(semester);
+
+    renderSemesters();
+    calculate();
+    saveData(false);
+}
+
+
+/* =========================
+   DELETE SEMESTER
+========================= */
+
+function deleteSemester(id){
+
+    if(semesters.length === 1){
+        showToast("At least one semester is required.");
+        return;
+    }
+
+    semesters = semesters.filter(s => s.id !== id);
+
+    renameSemesters();
+
+    renderSemesters();
+    calculate();
+    saveData(false);
+
+}
+
+
+/* =========================
+   RENAME SEMESTERS
+========================= */
+
+function renameSemesters(){
+
+    semesters.forEach((semester,index)=>{
+
+        if(
+            !semester.name ||
+            semester.name.startsWith("Semester ")
+        ){
+            semester.name = `Semester ${index + 1}`;
+        }
+
+    });
+
+}
+
+
+/* =========================
+   RENDER
+========================= */
+
+function renderSemesters(){
+
+    const container =
+        document.getElementById("semesterContainer");
+
+    container.innerHTML = "";
+
+    semesters.forEach((semester,index)=>{
+
+        const div = document.createElement("div");
+
+        div.className = "semester";
+
+        div.innerHTML = `
+
+            <div class="semester-top">
+
+                <div class="semester-number">
+                    📘 Semester ${index + 1}
+                </div>
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteSemester(${semester.id})"
+                    title="Delete Semester"
+                >
+                    🗑️
+                </button>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Semester Name</label>
+
+                <input
+                    type="text"
+                    value="${escapeHTML(semester.name)}"
+                    placeholder="e.g. Fall 2026"
+                    onchange="updateSemester(${semester.id}, 'name', this.value)"
+                >
+
+            </div>
+
+            <div class="row">
+
+                <div class="form-group">
+
+                    <label>Semester GPA</label>
+
+                    <input
+                        type="number"
+                        min="0"
+                        max="4"
+                        step="0.01"
+                        value="${semester.gpa}"
+                        placeholder="e.g. 3.75"
+                        oninput="updateSemester(${semester.id}, 'gpa', this.value)"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Credit Hours</label>
+
+                    <input
+                        type="number"
+                        min="0.1"
+                        step="0.5"
+                        value="${semester.credits}"
+                        placeholder="e.g. 18"
+                        oninput="updateSemester(${semester.id}, 'credits', this.value)"
+                    >
+
+                </div>
+
+            </div>
+
+        `;
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================
+   UPDATE SEMESTER
+========================= */
+
+function updateSemester(id,field,value){
+
+    const semester =
+        semesters.find(s => s.id === id);
+
+    if(!semester) return;
+
+    if(field === "gpa"){
+
+        if(value !== "" && Number(value) > 4){
+            value = 4;
+        }
+
+        if(value !== "" && Number(value) < 0){
+            value = 0;
+        }
+
+    }
+
+    semester[field] = value;
+
+    calculate();
+    saveData(false);
+
+}
+
+
+/* =========================
    CALCULATE CGPA
-===================================================== */
+========================= */
 
-function calculateCGPA() {
-
-
-    const semesters =
-        document.querySelectorAll(".semester");
-
+function calculate(){
 
     let totalCredits = 0;
+    let totalPoints = 0;
 
-    let totalWeightedGPA = 0;
+    semesters.forEach(semester => {
 
+        const gpa = parseFloat(semester.gpa);
+        const credits = parseFloat(semester.credits);
 
-    semesters.forEach(function(semester) {
-
-
-        const gpa =
-            parseFloat(
-                semester
-                .querySelector(".gpa-input")
-                .value
-            );
-
-
-        const credits =
-            parseFloat(
-                semester
-                .querySelector(".credit-input")
-                .value
-            );
-
-
-        if (
-
+        if(
             !isNaN(gpa) &&
-
             !isNaN(credits) &&
-
-            credits > 0 &&
-
             gpa >= 0 &&
+            gpa <= 4 &&
+            credits > 0
+        ){
 
-            gpa <= 4
-
-        ) {
-
-
+            totalPoints += gpa * credits;
             totalCredits += credits;
-
-            totalWeightedGPA +=
-                gpa * credits;
 
         }
 
@@ -1332,110 +836,318 @@ function calculateCGPA() {
 
     let cgpa = 0;
 
+    if(totalCredits > 0){
+        cgpa = totalPoints / totalCredits;
+    }
 
-    if(totalCredits > 0) {
 
-        cgpa =
-            totalWeightedGPA /
-            totalCredits;
+    document.getElementById("totalSemesters")
+        .textContent = semesters.length;
+
+    document.getElementById("totalCredits")
+        .textContent = totalCredits.toFixed(1);
+
+    document.getElementById("cgpa")
+        .textContent = cgpa.toFixed(2);
+
+
+    let message = "";
+
+    if(totalCredits === 0){
+
+        message =
+            "Enter your semester details to calculate CGPA";
+
+    }
+    else if(cgpa >= 3.75){
+
+        message =
+            "🏆 Outstanding academic performance!";
+
+    }
+    else if(cgpa >= 3.00){
+
+        message =
+            "🌟 Excellent work! Keep it up.";
+
+    }
+    else if(cgpa >= 2.50){
+
+        message =
+            "👍 Good progress. Keep improving.";
+
+    }
+    else if(cgpa >= 2.00){
+
+        message =
+            "📚 Keep working hard for better results.";
+
+    }
+    else{
+
+        message =
+            "💪 Don't give up. You can improve.";
 
     }
 
 
-    /* Total semesters */
-
-    document.getElementById(
-        "totalSemesters"
-    ).textContent =
-        semesters.length;
-
-
-    /* Total credits */
-
-    document.getElementById(
-        "totalCredits"
-    ).textContent =
-        totalCredits;
-
-
-    /* CGPA */
-
-    document.getElementById(
-        "cgpa"
-    ).textContent =
-        cgpa.toFixed(2);
-
-
-    /* Progress */
-
-    const percentage =
-        Math.min(
-            (cgpa / 4) * 100,
-            100
-        );
-
-
-    document.getElementById(
-        "progressBar"
-    ).style.width =
-        percentage + "%";
-
-
-    document.getElementById(
-        "progressText"
-    ).textContent =
-        Math.round(percentage) + "%";
-
-
-    /* Status */
-
-    updateStatus(cgpa);
-
-
-    /* Save */
-
-    saveData();
+    document.getElementById("resultMessage")
+        .textContent = message;
 
 }
 
 
+/* =========================
+   SAVE DATA
+========================= */
 
-/* =====================================================
-   STATUS
-===================================================== */
+function saveData(showMessage = true){
 
-function updateStatus(cgpa) {
+    const data = {
+
+        studentName:
+            document.getElementById("studentName").value,
+
+        university:
+            document.getElementById("university").value,
+
+        semesters: semesters
+
+    };
+
+    localStorage.setItem(
+        "noorullah_cgpa_calculator",
+        JSON.stringify(data)
+    );
+
+    if(showMessage){
+        showToast("Your data has been saved.");
+    }
+
+}
 
 
-    const status =
-        document.getElementById("status");
+/* =========================
+   LOAD DATA
+========================= */
 
+function loadData(){
 
-    if(cgpa === 0) {
+    try{
 
-        status.textContent =
-            "Enter your semester details";
+        const saved =
+            localStorage.getItem(
+                "noorullah_cgpa_calculator"
+            );
 
-        return;
+        if(!saved) return;
+
+        const data = JSON.parse(saved);
+
+        document.getElementById("studentName").value =
+            data.studentName || "";
+
+        document.getElementById("university").value =
+            data.university || "";
+
+        semesters =
+            Array.isArray(data.semesters)
+            ? data.semesters
+            : [];
+
+        renderSemesters();
+
+    }
+    catch(error){
+
+        console.log("Could not load saved data.");
 
     }
 
+}
 
-    if(cgpa >= 3.70) {
 
-        status.textContent =
-            "🏆 Excellent Performance!";
+/* =========================
+   RESET
+========================= */
+
+function resetCalculator(){
+
+    const confirmReset =
+        confirm(
+            "Are you sure you want to reset all your data?"
+        );
+
+    if(!confirmReset) return;
+
+    localStorage.removeItem(
+        "noorullah_cgpa_calculator"
+    );
+
+    document.getElementById("studentName").value = "";
+    document.getElementById("university").value = "";
+
+    semesters = [];
+
+    addSemester();
+
+    showToast("Calculator has been reset.");
+
+}
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+function toggleTheme(){
+
+    document.body.classList.toggle("dark");
+
+    const dark =
+        document.body.classList.contains("dark");
+
+    localStorage.setItem(
+        "cgpa_theme",
+        dark ? "dark" : "light"
+    );
+
+}
+
+
+/* LOAD THEME */
+
+if(localStorage.getItem("cgpa_theme") === "dark"){
+    document.body.classList.add("dark");
+}
+
+
+/* =========================
+   SHARE RESULT
+========================= */
+
+function shareResult(){
+
+    let totalCredits = 0;
+    let totalPoints = 0;
+
+    semesters.forEach(s=>{
+
+        const gpa = parseFloat(s.gpa);
+        const credits = parseFloat(s.credits);
+
+        if(
+            !isNaN(gpa) &&
+            !isNaN(credits) &&
+            credits > 0
+        ){
+
+            totalPoints += gpa * credits;
+            totalCredits += credits;
+
+        }
+
+    });
+
+    const cgpa =
+        totalCredits > 0
+        ? (totalPoints / totalCredits).toFixed(2)
+        : "0.00";
+
+
+    const student =
+        document.getElementById("studentName").value
+        || "Student";
+
+    const university =
+        document.getElementById("university").value
+        || "My University";
+
+
+    const text =
+`🎓 CGPA Result
+
+Student: ${student}
+University: ${university}
+
+📊 CGPA: ${cgpa}
+📚 Total Credit Hours: ${totalCredits.toFixed(1)}
+
+Calculated using CGPA Calculator
+By Noor Ullah`;
+
+    
+    if(navigator.share){
+
+        navigator.share({
+            title:"My CGPA Result",
+            text:text
+        }).catch(()=>{});
+
+    }
+    else{
+
+        navigator.clipboard.writeText(text)
+        .then(()=>{
+            showToast("Result copied to clipboard.");
+        });
 
     }
 
-    else if(cgpa >= 3.00) {
+}
 
-        status.textContent =
-            "⭐ Very Good Performance!";
 
-    }
+/* =========================
+   PRINT / PDF
+========================= */
 
-    else if(cgpa >= 2.50) {
+function printResult(){
 
-        status.textContent =
-            "?
+    calculate();
+
+    setTimeout(()=>{
+        window.print();
+    },100);
+
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(()=>{
+        toast.classList.remove("show");
+    },2200);
+
+}
+
+
+/* =========================
+   SECURITY
+========================= */
+
+function escapeHTML(text){
+
+    return String(text)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
