@@ -1,0 +1,25 @@
+{
+  "name": "CGPA Calculator by Noor Ullah",
+  "short_name": "CGPA Calc",
+  "description": "Offline semester and cumulative GPA calculator with printable academic transcript.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F2F3EC",
+  "theme_color": "#12301F",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
