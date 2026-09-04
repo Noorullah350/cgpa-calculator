@@ -3,1151 +3,438 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>CGPA Calculator — By Noor Ullah</title>
-
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
+*{box-sizing:border-box}
 :root{
-    --bg:#f1f5f9;
-    --card:#ffffff;
-    --text:#172033;
-    --muted:#64748b;
-    --primary:#2563eb;
-    --primary-dark:#1d4ed8;
-    --danger:#ef4444;
-    --success:#16a34a;
-    --border:#e2e8f0;
-    --input:#f8fafc;
-    --shadow:0 10px 30px rgba(15,23,42,.08);
+ --blue:#2563eb;--blue2:#1d4ed8;--navy:#172554;--green:#16a34a;
+ --red:#dc2626;--gray:#64748b;--bg:#f1f5f9;--card:#fff;
+ --text:#172033;--muted:#64748b;--border:#e2e8f0;
 }
-
-body.dark{
-    --bg:#0f172a;
-    --card:#1e293b;
-    --text:#f8fafc;
-    --muted:#94a3b8;
-    --border:#334155;
-    --input:#0f172a;
-    --shadow:0 10px 30px rgba(0,0,0,.25);
-}
-
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    min-height:100vh;
-    transition:.3s;
-}
-
-.container{
-    width:100%;
-    max-width:720px;
-    margin:auto;
-    padding:18px;
-}
-
-/* HEADER */
-
+*{font-family:Arial,Helvetica,sans-serif}
+body{margin:0;background:var(--bg);color:var(--text)}
+.container{max-width:950px;margin:auto;padding:14px}
 .header{
-    background:linear-gradient(135deg,#1e3a8a,#2563eb);
-    color:white;
-    border-radius:28px;
-    padding:30px 22px;
-    text-align:center;
-    box-shadow:0 15px 35px rgba(37,99,235,.25);
-    margin-bottom:18px;
-    position:relative;
-    overflow:hidden;
+ position:relative;text-align:center;color:white;padding:34px 18px;margin-bottom:16px;
+ border-radius:25px;background:linear-gradient(135deg,#172554,#2563eb);
+ box-shadow:0 12px 30px rgba(37,99,235,.18)
 }
-
-.header:before{
-    content:"";
-    position:absolute;
-    width:180px;
-    height:180px;
-    background:rgba(255,255,255,.08);
-    border-radius:50%;
-    right:-70px;
-    top:-80px;
+.header-icon{font-size:42px}.header h1{margin:8px 0;font-size:29px}
+.header p{margin:5px 0;opacity:.9}.creator{display:inline-block;margin-top:12px;padding:8px 15px;
+ background:rgba(255,255,255,.15);border-radius:30px;font-size:12px}
+.theme{position:absolute;right:12px;top:12px;width:40px;height:40px;border:0;border-radius:50%;
+ background:rgba(255,255,255,.15);color:white;font-size:18px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:21px;padding:20px;margin-bottom:16px;
+ box-shadow:0 6px 22px rgba(15,23,42,.05)}
+.title{font-size:19px;font-weight:bold;margin-bottom:16px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+label{display:block;font-size:12px;font-weight:bold;color:var(--muted);margin:0 0 7px}
+input{width:100%;height:46px;border:1px solid var(--border);border-radius:11px;padding:0 12px;
+ background:#f8fafc;color:var(--text);font-size:14px;outline:none}
+input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.semester{background:#f8fafc;border:1px solid var(--border);border-radius:18px;padding:15px;margin-bottom:14px}
+.semester-top{display:flex;gap:10px;align-items:center;margin-bottom:13px}
+.semester-title{font-size:18px;font-weight:bold;flex:1}
+.semester-title input{font-weight:bold;background:white}
+.subject{background:white;border:1px solid var(--border);border-radius:15px;padding:13px;margin-bottom:10px}
+.subject-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.subject-number{font-size:13px;font-weight:bold;color:var(--muted)}
+.subject-grid{display:grid;grid-template-columns:2fr 1fr 1fr 90px;gap:9px}
+.gpa{height:46px;border-radius:11px;background:#dbeafe;color:#1d4ed8;
+ display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:15px}
+.fail{background:#fee2e2!important;color:#dc2626!important}
+.btn{border:0;border-radius:11px;min-height:46px;padding:10px 14px;color:white;font-weight:bold;font-size:14px;cursor:pointer}
+.btn:active{transform:scale(.99)}
+.blue{background:var(--blue)}.green{background:var(--green)}.gray{background:var(--gray)}.red{background:var(--red)}
+.add-subject{width:100%;margin-top:3px}.delete{border:0;cursor:pointer;border-radius:9px;padding:9px 11px;background:#fee2e2;color:#dc2626;font-weight:bold}
+.semester-result{display:flex;justify-content:space-between;align-items:center;padding:12px;margin-top:12px;
+ background:white;border:1px solid var(--border);border-radius:11px}
+.semester-result span{color:var(--muted);font-size:13px}.semester-result strong{color:var(--blue);font-size:19px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:17px;padding:16px;text-align:center}
+.stat small{display:block;color:var(--muted);font-weight:bold;font-size:10px;margin-bottom:6px}.stat strong{font-size:23px}
+.result{text-align:center;color:white;padding:28px 18px;margin-bottom:16px;border-radius:24px;
+ background:linear-gradient(135deg,#172554,#1e40af)}
+.result-label{font-size:12px;letter-spacing:3px}.cgpa{font-size:64px;font-weight:900;margin:5px}
+.message{font-size:13px;opacity:.9}
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.footer{text-align:center;color:var(--muted);font-size:11px;padding:4px 0 25px}
+body.dark{--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--muted:#94a3b8;--border:#334155}
+body.dark input,body.dark .semester,body.dark .subject,body.dark .semester-result{background:#172033;color:#f8fafc}
+body.dark .subject{background:#1e293b}
+body.dark .delete{background:#451a1a}
+@media(max-width:650px){
+ .info-grid,.action-grid{grid-template-columns:1fr}
+ .subject-grid{grid-template-columns:1fr 1fr}
+ .subject-name{grid-column:1/3}.gpa-box{grid-column:1/3}
+ .stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1/3}
+ .header h1{font-size:25px}.cgpa{font-size:55px}
 }
-
-.header .icon{
-    font-size:44px;
-    margin-bottom:8px;
-}
-
-.header h1{
-    font-size:30px;
-    margin-bottom:7px;
-}
-
-.header p{
-    opacity:.9;
-    font-size:15px;
-}
-
-.by{
-    margin-top:13px;
-    font-size:13px;
-    opacity:.85;
-}
-
-.top-buttons{
-    position:absolute;
-    top:14px;
-    right:14px;
-    display:flex;
-    gap:8px;
-}
-
-.icon-btn{
-    width:40px;
-    height:40px;
-    border:none;
-    border-radius:50%;
-    background:rgba(255,255,255,.18);
-    color:white;
-    font-size:19px;
-    cursor:pointer;
-}
-
-/* CARD */
-
-.card{
-    background:var(--card);
-    border-radius:24px;
-    padding:20px;
-    margin-bottom:18px;
-    box-shadow:var(--shadow);
-    border:1px solid var(--border);
-}
-
-.card-title{
-    font-size:18px;
-    font-weight:700;
-    margin-bottom:16px;
-}
-
-/* INPUTS */
-
-.form-group{
-    margin-bottom:14px;
-}
-
-label{
-    display:block;
-    font-size:13px;
-    font-weight:700;
-    color:var(--muted);
-    margin-bottom:7px;
-}
-
-input{
-    width:100%;
-    padding:14px 15px;
-    border:1px solid var(--border);
-    border-radius:13px;
-    background:var(--input);
-    color:var(--text);
-    font-size:16px;
-    outline:none;
-    transition:.2s;
-}
-
-input:focus{
-    border-color:var(--primary);
-    box-shadow:0 0 0 3px rgba(37,99,235,.12);
-}
-
-/* SEMESTER */
-
-.semester{
-    background:var(--input);
-    border:1px solid var(--border);
-    border-radius:18px;
-    padding:16px;
-    margin-bottom:13px;
-    animation:slideIn .25s ease;
-}
-
-@keyframes slideIn{
-    from{
-        opacity:0;
-        transform:translateY(8px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-.semester-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:13px;
-}
-
-.semester-number{
-    font-weight:700;
-    font-size:16px;
-}
-
-.delete-btn{
-    border:none;
-    background:#fee2e2;
-    color:#dc2626;
-    width:38px;
-    height:38px;
-    border-radius:11px;
-    font-size:18px;
-    cursor:pointer;
-}
-
-body.dark .delete-btn{
-    background:#451a1a;
-    color:#f87171;
-}
-
-.row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-}
-
-/* BUTTONS */
-
-.btn{
-    width:100%;
-    border:none;
-    border-radius:13px;
-    padding:14px;
-    font-size:16px;
-    font-weight:700;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.btn:active{
-    transform:scale(.98);
-}
-
-.primary{
-    background:var(--primary);
-    color:white;
-}
-
-.primary:hover{
-    background:var(--primary-dark);
-}
-
-.secondary{
-    background:#64748b;
-    color:white;
-}
-
-.danger{
-    background:var(--danger);
-    color:white;
-}
-
-.success{
-    background:var(--success);
-    color:white;
-}
-
-.button-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-    margin-top:10px;
-}
-
-/* SUMMARY */
-
-.summary-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-}
-
-.stat{
-    background:var(--input);
-    border:1px solid var(--border);
-    border-radius:18px;
-    padding:20px;
-    text-align:center;
-}
-
-.stat-label{
-    color:var(--muted);
-    font-size:13px;
-    font-weight:700;
-    margin-bottom:8px;
-}
-
-.stat-value{
-    font-size:27px;
-    font-weight:800;
-}
-
-/* RESULT */
-
-.result{
-    background:linear-gradient(135deg,#172554,#1e3a8a);
-    color:white;
-    border-radius:25px;
-    padding:28px 20px;
-    text-align:center;
-    box-shadow:0 15px 35px rgba(30,58,138,.25);
-}
-
-.result small{
-    font-size:14px;
-    opacity:.8;
-    font-weight:700;
-}
-
-.cgpa{
-    font-size:64px;
-    font-weight:900;
-    margin:8px 0;
-}
-
-.result-message{
-    font-size:14px;
-    opacity:.85;
-}
-
-/* ACTIONS */
-
-.actions{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-}
-
-/* FOOTER */
-
-.footer{
-    text-align:center;
-    color:var(--muted);
-    font-size:12px;
-    padding:15px 0 25px;
-}
-
-.footer strong{
-    color:var(--text);
-}
-
-/* TOAST */
-
-.toast{
-    position:fixed;
-    bottom:25px;
-    left:50%;
-    transform:translateX(-50%) translateY(80px);
-    background:#111827;
-    color:white;
-    padding:13px 18px;
-    border-radius:12px;
-    font-size:14px;
-    opacity:0;
-    transition:.3s;
-    z-index:1000;
-    max-width:90%;
-    text-align:center;
-}
-
-.toast.show{
-    opacity:1;
-    transform:translateX(-50%) translateY(0);
-}
-
-/* PRINT */
-
 @media print{
-    body{
-        background:white;
-    }
-
-    .top-buttons,
-    .button-row,
-    .actions,
-    .delete-btn,
-    .footer{
-        display:none !important;
-    }
-
-    .card{
-        box-shadow:none;
-        border:1px solid #ddd;
-    }
-
-    .header{
-        box-shadow:none;
-    }
-}
-
-/* MOBILE */
-
-@media(max-width:500px){
-    .container{
-        padding:12px;
-    }
-
-    .header{
-        padding:27px 15px;
-        border-radius:22px;
-    }
-
-    .header h1{
-        font-size:25px;
-    }
-
-    .header .icon{
-        font-size:38px;
-    }
-
-    .card{
-        padding:15px;
-        border-radius:20px;
-    }
-
-    .row{
-        grid-template-columns:1fr;
-    }
-
-    .summary-grid{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .cgpa{
-        font-size:58px;
-    }
+ @page{size:A4;margin:12mm}
+ body{background:white!important;color:#111!important}
+ .theme,.delete,.add-subject,.add-semester,.actions,.footer{display:none!important}
+ .card,.stat{box-shadow:none}.semester{break-inside:avoid;background:white!important}
+ input{background:white!important;color:#111!important}
+ .header,.result{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 </style>
 </head>
-
 <body>
-
 <div class="container">
 
-    <!-- HEADER -->
-    <header class="header">
+<header class="header">
+<button class="theme" id="themeBtn" type="button">🌙</button>
+<div class="header-icon">🎓</div>
+<div>WELCOME</div>
+<h1>CGPA Calculator</h1>
+<p>Professional GPA & CGPA Calculator for Students</p>
+<div class="creator">✨ CGPA Calculator by <b>Noor Ullah</b></div>
+</header>
 
-        <div class="top-buttons">
-            <button class="icon-btn" onclick="toggleTheme()" title="Dark/Light Mode">
-                🌙
-            </button>
-        </div>
+<section class="card">
+<div class="title">👨‍🎓 Student Information</div>
+<div class="info-grid">
+<div><label>Student Name</label><input id="studentName" type="text" placeholder="Enter student name"></div>
+<div><label>University / Institute</label><input id="university" type="text" placeholder="Enter university name"></div>
+</div>
+</section>
 
-        <div class="icon">🎓</div>
+<section class="card">
+<div class="title">📚 Academic Record</div>
+<div id="semesters"></div>
+<button class="btn blue add-semester" id="addSemester" type="button">＋ Add Semester</button>
+</section>
 
-        <h1>CGPA Calculator</h1>
-
-        <p>Calculate your cumulative GPA easily & accurately</p>
-
-        <div class="by">
-            ✨ Designed by <strong>Noor Ullah</strong>
-        </div>
-
-    </header>
-
-
-    <!-- STUDENT INFORMATION -->
-    <section class="card">
-
-        <div class="card-title">
-            👨‍🎓 Student Information
-        </div>
-
-        <div class="form-group">
-            <label>Student Name</label>
-            <input
-                type="text"
-                id="studentName"
-                placeholder="Enter your name"
-                oninput="saveData()"
-            >
-        </div>
-
-        <div class="form-group">
-            <label>University / Institute</label>
-            <input
-                type="text"
-                id="university"
-                placeholder="Enter university name"
-                oninput="saveData()"
-            >
-        </div>
-
-    </section>
-
-
-    <!-- SEMESTERS -->
-    <section class="card">
-
-        <div class="card-title">
-            📚 Semester Details
-        </div>
-
-        <div id="semesterContainer"></div>
-
-        <button class="btn primary" onclick="addSemester()">
-            ＋ Add Semester
-        </button>
-
-    </section>
-
-
-    <!-- SUMMARY -->
-    <section class="card">
-
-        <div class="card-title">
-            📊 Academic Summary
-        </div>
-
-        <div class="summary-grid">
-
-            <div class="stat">
-                <div class="stat-label">
-                    TOTAL SEMESTERS
-                </div>
-
-                <div class="stat-value" id="totalSemesters">
-                    0
-                </div>
-            </div>
-
-            <div class="stat">
-                <div class="stat-label">
-                    TOTAL CREDITS
-                </div>
-
-                <div class="stat-value" id="totalCredits">
-                    0.0
-                </div>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- RESULT -->
-    <section class="result">
-
-        <small>YOUR CUMULATIVE GPA</small>
-
-        <div class="cgpa" id="cgpa">
-            0.00
-        </div>
-
-        <div class="result-message" id="resultMessage">
-            Enter your semester details to calculate CGPA
-        </div>
-
-    </section>
-
-
-    <!-- ACTIONS -->
-    <section class="card">
-
-        <div class="actions">
-
-            <button class="btn success" onclick="shareResult()">
-                📤 Share
-            </button>
-
-            <button class="btn primary" onclick="printResult()">
-                🖨️ Print / PDF
-            </button>
-
-            <button class="btn secondary" onclick="saveData()">
-                💾 Save
-            </button>
-
-            <button class="btn danger" onclick="resetCalculator()">
-                🔄 Reset
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <strong>CGPA Calculator</strong><br>
-        Made with ❤️ for students<br><br>
-        © 2026 Noor Ullah
-    </footer>
-
+<div class="stats">
+<div class="stat"><small>SEMESTERS</small><strong id="semesterCount">0</strong></div>
+<div class="stat"><small>SUBJECTS</small><strong id="subjectCount">0</strong></div>
+<div class="stat"><small>CREDIT HOURS</small><strong id="creditCount">0.00</strong></div>
 </div>
 
+<section class="result">
+<div class="result-label">OVERALL CGPA</div>
+<div class="cgpa" id="cgpa">0.00</div>
+<div class="message" id="message">Add subjects, marks and credit hours</div>
+</section>
 
-<div class="toast" id="toast"></div>
+<section class="card actions">
+<div class="action-grid">
+<button class="btn green" id="printBtn" type="button">🖨️ Print Transcript</button>
+<button class="btn gray" id="shareBtn" type="button">📤 Share Result</button>
+<button class="btn blue" id="saveBtn" type="button">💾 Save Data</button>
+<button class="btn red" id="resetBtn" type="button">🔄 Reset All</button>
+</div>
+</section>
 
+<div class="footer"><b>CGPA Calculator by Noor Ullah</b><br>Made with ❤️ for Students</div>
+</div>
 
 <script>
+"use strict";
+
+/* HEC grading points — NO letter grade is shown automatically. */
+function gradePoint(marks){
+  marks = Number(marks);
+  if (!Number.isFinite(marks)) return null;
+  if (marks >= 85) return 4.00;
+  if (marks >= 80) return 3.70;
+  if (marks >= 75) return 3.30;
+  if (marks >= 70) return 3.00;
+  if (marks >= 65) return 2.70;
+  if (marks >= 60) return 2.30;
+  if (marks >= 55) return 2.00;
+  if (marks >= 50) return 1.70;
+  if (marks >= 45) return 1.00;
+  return 0.00;
+}
 
 let semesters = [];
+let nextSemesterId = 1;
+let nextSubjectId = 1;
 
+const $ = id => document.getElementById(id);
 
-/* =========================
-   START APP
-========================= */
+function makeSubject(){
+  return {id: nextSubjectId++, name:"", credits:"", marks:""};
+}
 
-document.addEventListener("DOMContentLoaded", function(){
+function makeSemester(){
+  return {id: nextSemesterId++, name:"", subjects:[makeSubject()]};
+}
 
-    loadData();
+function init(){
+  const saved = localStorage.getItem("noor_cgpa_data");
+  if(saved){
+    try{
+      const data = JSON.parse(saved);
+      if(Array.isArray(data.semesters) && data.semesters.length){
+        semesters = data.semesters;
+        nextSemesterId = data.nextSemesterId || 1;
+        nextSubjectId = data.nextSubjectId || 1;
+        $("studentName").value = data.studentName || "";
+        $("university").value = data.university || "";
+      }
+    }catch(e){}
+  }
+  if(!semesters.length) semesters = [makeSemester()];
+  render();
+  calculateAll();
+}
 
-    if(semesters.length === 0){
-        addSemester();
-    }
+function addSemester(){
+  semesters.push(makeSemester());
+  render();
+  calculateAll();
+  saveData(false);
+}
 
-    calculate();
+function addSubject(semesterId){
+  const sem = semesters.find(s => s.id === semesterId);
+  if(!sem) return;
+  sem.subjects.push(makeSubject());
+  render();
+  calculateAll();
+  saveData(false);
+}
 
+function removeSemester(id){
+  if(semesters.length === 1){
+    alert("At least one semester is required.");
+    return;
+  }
+  semesters = semesters.filter(s => s.id !== id);
+  render();
+  calculateAll();
+  saveData(false);
+}
+
+function removeSubject(semesterId, subjectId){
+  const sem = semesters.find(s => s.id === semesterId);
+  if(!sem) return;
+  if(sem.subjects.length === 1){
+    alert("At least one subject is required in each semester.");
+    return;
+  }
+  sem.subjects = sem.subjects.filter(x => x.id !== subjectId);
+  render();
+  calculateAll();
+  saveData(false);
+}
+
+function render(){
+  const box = $("semesters");
+  box.innerHTML = "";
+
+  semesters.forEach((sem, si) => {
+    const div = document.createElement("div");
+    div.className = "semester";
+
+    const top = document.createElement("div");
+    top.className = "semester-top";
+
+    const nameWrap = document.createElement("div");
+    nameWrap.className = "semester-title";
+    const nameInput = document.createElement("input");
+    nameInput.type = "text";
+    nameInput.placeholder = "Semester name (e.g. Fall 2026)";
+    nameInput.value = sem.name || "";
+    nameInput.addEventListener("input", e => {
+      sem.name = e.target.value;
+      saveData(false);
+    });
+    nameWrap.appendChild(nameInput);
+
+    const delSem = document.createElement("button");
+    delSem.className = "delete";
+    delSem.type = "button";
+    delSem.textContent = "🗑️";
+    delSem.title = "Delete semester";
+    delSem.addEventListener("click", () => removeSemester(sem.id));
+
+    top.appendChild(nameWrap);
+    top.appendChild(delSem);
+    div.appendChild(top);
+
+    sem.subjects.forEach((sub, idx) => {
+      const card = document.createElement("div");
+      card.className = "subject";
+
+      const st = document.createElement("div");
+      st.className = "subject-top";
+      const sn = document.createElement("div");
+      sn.className = "subject-number";
+      sn.textContent = "Subject " + (idx + 1);
+
+      const delSub = document.createElement("button");
+      delSub.className = "delete";
+      delSub.type = "button";
+      delSub.textContent = "✕";
+      delSub.addEventListener("click", () => removeSubject(sem.id, sub.id));
+      st.append(sn, delSub);
+      card.appendChild(st);
+
+      const grid = document.createElement("div");
+      grid.className = "subject-grid";
+
+      const nameBox = document.createElement("div");
+      nameBox.className = "subject-name";
+      nameBox.appendChild(label("Subject Name"));
+      const name = inputText(sub.name, "e.g. Programming");
+      name.addEventListener("input", e => {sub.name=e.target.value; saveData(false);});
+      nameBox.appendChild(name);
+
+      const creditBox = document.createElement("div");
+      creditBox.appendChild(label("Credit Hours"));
+      const credit = document.createElement("input");
+      credit.type="number"; credit.min="0"; credit.step="0.5"; credit.placeholder="3"; credit.value=sub.credits;
+      credit.addEventListener("input", e => {sub.credits=e.target.value; calculateAll(); saveData(false);});
+      creditBox.appendChild(credit);
+
+      const marksBox = document.createElement("div");
+      marksBox.appendChild(label("Subject Marks"));
+      const marks = document.createElement("input");
+      marks.type="number"; marks.min="0"; marks.max="100"; marks.step="0.01"; marks.placeholder="85"; marks.value=sub.marks;
+      marks.addEventListener("input", e => {
+        let v=e.target.value;
+        if(v!=="" && Number(v)>100){v="100";e.target.value=v;}
+        if(v!=="" && Number(v)<0){v="0";e.target.value=v;}
+        sub.marks=v; calculateAll(); saveData(false);
+      });
+      marksBox.appendChild(marks);
+
+      const gpaBox = document.createElement("div");
+      gpaBox.className="gpa-box";
+      gpaBox.appendChild(label("GPA"));
+      const gpa = document.createElement("div");
+      gpa.className="gpa";
+      gpa.id="gpa-"+sem.id+"-"+sub.id;
+      gpaBox.appendChild(gpa);
+
+      grid.append(nameBox,creditBox,marksBox,gpaBox);
+      card.appendChild(grid);
+      div.appendChild(card);
+    });
+
+    const addSub = document.createElement("button");
+    addSub.className="btn blue add-subject";
+    addSub.type="button";
+    addSub.textContent="＋ Add Subject";
+    addSub.addEventListener("click",()=>addSubject(sem.id));
+    div.appendChild(addSub);
+
+    const result = document.createElement("div");
+    result.className="semester-result";
+    result.innerHTML='<span>Semester GPA</span><strong id="semgpa-'+sem.id+'">0.00</strong>';
+    div.appendChild(result);
+
+    box.appendChild(div);
+  });
+}
+
+function label(text){
+  const l=document.createElement("label"); l.textContent=text; return l;
+}
+function inputText(value,placeholder){
+  const i=document.createElement("input"); i.type="text"; i.value=value||""; i.placeholder=placeholder; return i;
+}
+
+function calculateAll(){
+  let totalWeighted=0, totalCredits=0, subjectCount=0, validSubjects=0;
+
+  semesters.forEach(sem=>{
+    let semWeighted=0, semCredits=0;
+
+    sem.subjects.forEach(sub=>{
+      subjectCount++;
+      const m=Number(sub.marks), c=Number(sub.credits);
+      const gp=gradePoint(sub.marks);
+      const gpaEl=$("gpa-"+sem.id+"-"+sub.id);
+
+      if(gpaEl){
+        gpaEl.classList.remove("fail");
+        gpaEl.textContent = gp===null ? "—" : gp.toFixed(2);
+        if(gp===0 && Number.isFinite(m)) gpaEl.classList.add("fail");
+      }
+
+      if(Number.isFinite(m) && m>=0 && m<=100 && Number.isFinite(c) && c>0){
+        semWeighted += gp*c;
+        semCredits += c;
+        totalWeighted += gp*c;
+        totalCredits += c;
+        validSubjects++;
+      }
+    });
+
+    const semEl=$("semgpa-"+sem.id);
+    if(semEl) semEl.textContent=semCredits>0 ? (semWeighted/semCredits).toFixed(2) : "0.00";
+  });
+
+  $("semesterCount").textContent=semesters.length;
+  $("subjectCount").textContent=subjectCount;
+  $("creditCount").textContent=totalCredits.toFixed(2);
+
+  const cgpa=totalCredits>0 ? totalWeighted/totalCredits : 0;
+  $("cgpa").textContent=cgpa.toFixed(2);
+
+  if(validSubjects===0) $("message").textContent="Enter marks and credit hours to calculate CGPA";
+  else $("message").textContent="Calculated using credit-hour weighted GPA";
+}
+
+function saveData(show){
+  const data={
+    studentName:$("studentName").value,
+    university:$("university").value,
+    semesters,nextSemesterId,nextSubjectId
+  };
+  localStorage.setItem("noor_cgpa_data",JSON.stringify(data));
+  if(show) alert("✅ Data saved successfully on this device.");
+}
+
+function resetAll(){
+  if(!confirm("Are you sure you want to reset the complete record?")) return;
+  localStorage.removeItem("noor_cgpa_data");
+  semesters=[makeSemester()];
+  $("studentName").value="";
+  $("university").value="";
+  render();
+  calculateAll();
+}
+
+function printTranscript(){
+  calculateAll();
+  window.print();
+}
+
+async function shareResult(){
+  const name=$("studentName").value.trim() || "Student";
+  const uni=$("university").value.trim();
+  const text="🎓 CGPA Result\nStudent: "+name+
+    (uni ? "\nUniversity: "+uni : "")+
+    "\nCGPA: "+$("cgpa").textContent+
+    "\n\nCGPA Calculator by Noor Ullah";
+  if(navigator.share){
+    try{await navigator.share({title:"CGPA Result",text});}catch(e){}
+  }else{
+    try{await navigator.clipboard.writeText(text);alert("✅ Result copied. You can paste it anywhere.");}
+    catch(e){alert(text);}
+  }
+}
+
+$("addSemester").addEventListener("click",addSemester);
+$("printBtn").addEventListener("click",printTranscript);
+$("shareBtn").addEventListener("click",shareResult);
+$("saveBtn").addEventListener("click",()=>saveData(true));
+$("resetBtn").addEventListener("click",resetAll);
+$("studentName").addEventListener("input",()=>saveData(false));
+$("university").addEventListener("input",()=>saveData(false));
+
+$("themeBtn").addEventListener("click",()=>{
+  document.body.classList.toggle("dark");
+  $("themeBtn").textContent=document.body.classList.contains("dark")?"☀️":"🌙";
 });
 
-
-/* =========================
-   ADD SEMESTER
-========================= */
-
-function addSemester(data = null){
-
-    const semester = {
-        id: Date.now() + Math.random(),
-        name: data?.name || `Semester ${semesters.length + 1}`,
-        gpa: data?.gpa ?? "",
-        credits: data?.credits ?? ""
-    };
-
-    semesters.push(semester);
-
-    renderSemesters();
-    calculate();
-    saveData(false);
-}
-
-
-/* =========================
-   DELETE SEMESTER
-========================= */
-
-function deleteSemester(id){
-
-    if(semesters.length === 1){
-        showToast("At least one semester is required.");
-        return;
-    }
-
-    semesters = semesters.filter(s => s.id !== id);
-
-    renameSemesters();
-
-    renderSemesters();
-    calculate();
-    saveData(false);
-
-}
-
-
-/* =========================
-   RENAME SEMESTERS
-========================= */
-
-function renameSemesters(){
-
-    semesters.forEach((semester,index)=>{
-
-        if(
-            !semester.name ||
-            semester.name.startsWith("Semester ")
-        ){
-            semester.name = `Semester ${index + 1}`;
-        }
-
-    });
-
-}
-
-
-/* =========================
-   RENDER
-========================= */
-
-function renderSemesters(){
-
-    const container =
-        document.getElementById("semesterContainer");
-
-    container.innerHTML = "";
-
-    semesters.forEach((semester,index)=>{
-
-        const div = document.createElement("div");
-
-        div.className = "semester";
-
-        div.innerHTML = `
-
-            <div class="semester-top">
-
-                <div class="semester-number">
-                    📘 Semester ${index + 1}
-                </div>
-
-                <button
-                    class="delete-btn"
-                    onclick="deleteSemester(${semester.id})"
-                    title="Delete Semester"
-                >
-                    🗑️
-                </button>
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Semester Name</label>
-
-                <input
-                    type="text"
-                    value="${escapeHTML(semester.name)}"
-                    placeholder="e.g. Fall 2026"
-                    onchange="updateSemester(${semester.id}, 'name', this.value)"
-                >
-
-            </div>
-
-            <div class="row">
-
-                <div class="form-group">
-
-                    <label>Semester GPA</label>
-
-                    <input
-                        type="number"
-                        min="0"
-                        max="4"
-                        step="0.01"
-                        value="${semester.gpa}"
-                        placeholder="e.g. 3.75"
-                        oninput="updateSemester(${semester.id}, 'gpa', this.value)"
-                    >
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>Credit Hours</label>
-
-                    <input
-                        type="number"
-                        min="0.1"
-                        step="0.5"
-                        value="${semester.credits}"
-                        placeholder="e.g. 18"
-                        oninput="updateSemester(${semester.id}, 'credits', this.value)"
-                    >
-
-                </div>
-
-            </div>
-
-        `;
-
-        container.appendChild(div);
-
-    });
-
-}
-
-
-/* =========================
-   UPDATE SEMESTER
-========================= */
-
-function updateSemester(id,field,value){
-
-    const semester =
-        semesters.find(s => s.id === id);
-
-    if(!semester) return;
-
-    if(field === "gpa"){
-
-        if(value !== "" && Number(value) > 4){
-            value = 4;
-        }
-
-        if(value !== "" && Number(value) < 0){
-            value = 0;
-        }
-
-    }
-
-    semester[field] = value;
-
-    calculate();
-    saveData(false);
-
-}
-
-
-/* =========================
-   CALCULATE CGPA
-========================= */
-
-function calculate(){
-
-    let totalCredits = 0;
-    let totalPoints = 0;
-
-    semesters.forEach(semester => {
-
-        const gpa = parseFloat(semester.gpa);
-        const credits = parseFloat(semester.credits);
-
-        if(
-            !isNaN(gpa) &&
-            !isNaN(credits) &&
-            gpa >= 0 &&
-            gpa <= 4 &&
-            credits > 0
-        ){
-
-            totalPoints += gpa * credits;
-            totalCredits += credits;
-
-        }
-
-    });
-
-
-    let cgpa = 0;
-
-    if(totalCredits > 0){
-        cgpa = totalPoints / totalCredits;
-    }
-
-
-    document.getElementById("totalSemesters")
-        .textContent = semesters.length;
-
-    document.getElementById("totalCredits")
-        .textContent = totalCredits.toFixed(1);
-
-    document.getElementById("cgpa")
-        .textContent = cgpa.toFixed(2);
-
-
-    let message = "";
-
-    if(totalCredits === 0){
-
-        message =
-            "Enter your semester details to calculate CGPA";
-
-    }
-    else if(cgpa >= 3.75){
-
-        message =
-            "🏆 Outstanding academic performance!";
-
-    }
-    else if(cgpa >= 3.00){
-
-        message =
-            "🌟 Excellent work! Keep it up.";
-
-    }
-    else if(cgpa >= 2.50){
-
-        message =
-            "👍 Good progress. Keep improving.";
-
-    }
-    else if(cgpa >= 2.00){
-
-        message =
-            "📚 Keep working hard for better results.";
-
-    }
-    else{
-
-        message =
-            "💪 Don't give up. You can improve.";
-
-    }
-
-
-    document.getElementById("resultMessage")
-        .textContent = message;
-
-}
-
-
-/* =========================
-   SAVE DATA
-========================= */
-
-function saveData(showMessage = true){
-
-    const data = {
-
-        studentName:
-            document.getElementById("studentName").value,
-
-        university:
-            document.getElementById("university").value,
-
-        semesters: semesters
-
-    };
-
-    localStorage.setItem(
-        "noorullah_cgpa_calculator",
-        JSON.stringify(data)
-    );
-
-    if(showMessage){
-        showToast("Your data has been saved.");
-    }
-
-}
-
-
-/* =========================
-   LOAD DATA
-========================= */
-
-function loadData(){
-
-    try{
-
-        const saved =
-            localStorage.getItem(
-                "noorullah_cgpa_calculator"
-            );
-
-        if(!saved) return;
-
-        const data = JSON.parse(saved);
-
-        document.getElementById("studentName").value =
-            data.studentName || "";
-
-        document.getElementById("university").value =
-            data.university || "";
-
-        semesters =
-            Array.isArray(data.semesters)
-            ? data.semesters
-            : [];
-
-        renderSemesters();
-
-    }
-    catch(error){
-
-        console.log("Could not load saved data.");
-
-    }
-
-}
-
-
-/* =========================
-   RESET
-========================= */
-
-function resetCalculator(){
-
-    const confirmReset =
-        confirm(
-            "Are you sure you want to reset all your data?"
-        );
-
-    if(!confirmReset) return;
-
-    localStorage.removeItem(
-        "noorullah_cgpa_calculator"
-    );
-
-    document.getElementById("studentName").value = "";
-    document.getElementById("university").value = "";
-
-    semesters = [];
-
-    addSemester();
-
-    showToast("Calculator has been reset.");
-
-}
-
-
-/* =========================
-   DARK MODE
-========================= */
-
-function toggleTheme(){
-
-    document.body.classList.toggle("dark");
-
-    const dark =
-        document.body.classList.contains("dark");
-
-    localStorage.setItem(
-        "cgpa_theme",
-        dark ? "dark" : "light"
-    );
-
-}
-
-
-/* LOAD THEME */
-
-if(localStorage.getItem("cgpa_theme") === "dark"){
-    document.body.classList.add("dark");
-}
-
-
-/* =========================
-   SHARE RESULT
-========================= */
-
-function shareResult(){
-
-    let totalCredits = 0;
-    let totalPoints = 0;
-
-    semesters.forEach(s=>{
-
-        const gpa = parseFloat(s.gpa);
-        const credits = parseFloat(s.credits);
-
-        if(
-            !isNaN(gpa) &&
-            !isNaN(credits) &&
-            credits > 0
-        ){
-
-            totalPoints += gpa * credits;
-            totalCredits += credits;
-
-        }
-
-    });
-
-    const cgpa =
-        totalCredits > 0
-        ? (totalPoints / totalCredits).toFixed(2)
-        : "0.00";
-
-
-    const student =
-        document.getElementById("studentName").value
-        || "Student";
-
-    const university =
-        document.getElementById("university").value
-        || "My University";
-
-
-    const text =
-`🎓 CGPA Result
-
-Student: ${student}
-University: ${university}
-
-📊 CGPA: ${cgpa}
-📚 Total Credit Hours: ${totalCredits.toFixed(1)}
-
-Calculated using CGPA Calculator
-By Noor Ullah`;
-
-    
-    if(navigator.share){
-
-        navigator.share({
-            title:"My CGPA Result",
-            text:text
-        }).catch(()=>{});
-
-    }
-    else{
-
-        navigator.clipboard.writeText(text)
-        .then(()=>{
-            showToast("Result copied to clipboard.");
-        });
-
-    }
-
-}
-
-
-/* =========================
-   PRINT / PDF
-========================= */
-
-function printResult(){
-
-    calculate();
-
-    setTimeout(()=>{
-        window.print();
-    },100);
-
-}
-
-
-/* =========================
-   TOAST
-========================= */
-
-function showToast(message){
-
-    const toast =
-        document.getElementById("toast");
-
-    toast.textContent = message;
-
-    toast.classList.add("show");
-
-    setTimeout(()=>{
-        toast.classList.remove("show");
-    },2200);
-
-}
-
-
-/* =========================
-   SECURITY
-========================= */
-
-function escapeHTML(text){
-
-    return String(text)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
+init();
 </script>
-
 </body>
 </html>
