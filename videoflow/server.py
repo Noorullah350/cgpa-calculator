@@ -1,8 +1,8 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json, subprocess, urllib.parse, os
 
-HOST = "127.0.0.1"
-PORT = 8765
+HOST = "0.0.0.0"
+PORT = int(os.environ.get("PORT", 8765))
 DOWNLOAD_DIR = os.path.expanduser("~/storage/downloads")
 
 class Handler(BaseHTTPRequestHandler):
